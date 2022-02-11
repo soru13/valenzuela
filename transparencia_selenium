@@ -1,0 +1,97 @@
+import random
+from time import sleep
+from selenium import webdriver
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+import lxml.html as html
+# estados = driver.find_elements_by_xpath('//ol/li/input')
+# sleep(3)
+# estados = driver.find_elements_by_xpath('//ul[@class="dropdown-menu inner"]/li')
+# print(estados)
+# './/ol/li/input/@value'
+# for estado in estados:
+#     name=estado.getAttribute("value");
+#     # name = estado.find_elements_by_xpath('.//@value')
+#     print(name)
+URL_TRANSPARENCIA = 'https://consultapublicamx.inai.org.mx/vut-web/faces/view/consultaPublica.xhtml#inicio'
+INSTITUCIONES_XPATH = '//ol/li/input/@value'
+def parse_home():
+    try:
+        driver = webdriver.Chrome('./chromedriver')
+        driver.get(URL_TRANSPARENCIA)
+        sleep(1)
+        driver.find_element_by_xpath('//button[@class="btn dropdown-toggle btn-default"]').click()
+        sleep(2)
+        driver.find_element_by_xpath('//ul[@class="dropdown-menu inner"]/li[@data-original-index="26"]').click()
+        sleep(3)
+        respuesta = driver.page_source
+        parsed = html.fromstring(respuesta)
+        instituciones = parsed.xpath(INSTITUCIONES_XPATH)
+        sleep(2)
+        driver.find_element_by_xpath('//*[@id="formListaSujetosAZ:listaAZSujetos"]/ol/li[1]').click()
+        sleep(2)
+        driver.find_element_by_xpath('//*[@id="listSO"]/ol/li[1]').click()
+        sleep(2)
+        driver.find_element_by_xpath('//*[@id="formEntidadFederativa:panelIconosListaYMosaico"]/div/span[2]').click()
+        sleep(2)
+        #seleccionamos los procedimientos de adjudicación entre otras cosas
+        driver.find_element_by_xpath('//tbody/tr/td[@data-original-title="ART. - 95 - XXXIX - LA INFORMACIÓN DE LOS RESULTADOS SOBRE PROCEDIMIENTOS DE ADJUDICACIÓNDIRECTA, INVITACIÓN, INVITACIÓN RESTRINGIDA Y LICITACIÓN DE CUALQUIER NATURALEZA,INCLUYENDO LA VERSIÓN PÚBLICA DEL EXPEDIENTE RESPECTIVO Y DE LOS CONTRATOSCELEBRADOS, QUE DEBERÁ CONTENER POR LO MENOS LO SIGUIENTE"]').click()
+        sleep(3)
+        #seleccionamos todos los trimestres
+        driver.find_element_by_xpath('//tbody/tr/td/input[@value="99"]').click()
+        # Abrimos los filtros de busqueda
+        driver.find_element_by_xpath('//*[@id="formFiltrosAvanzados:TotalRegistros"]/div[3]/div[1]').click()
+        # abrimos el seleccionador
+        sleep(2)
+        driver.find_element_by_xpath('//*[@id="formFiltrosAvanzados:panelFiltrosAvanzados"]/div[1]/div[6]/div[3]/div/button').click()
+        #Seleccionamos adquisiciones
+        driver.find_element_by_xpath('//*[@id="formFiltrosAvanzados:panelFiltrosAvanzados"]/div[1]/div[6]/div[3]/div/div/ul/li[2]').click()
+        #Damos click en el boton consultar
+        driver.find_element_by_xpath('//*[@id="botonesFiltro"]/div[3]/button').click()        
+        sleep(3)
+        #Descargamos los resultados click boton descargar excel
+        driver.find_element_by_xpath('//*[@id="formDescargaArchivos:descargaArchivos"]/div[2]/div/div/div[3]/span').click()
+        sleep(3)
+        #Damos click en descargar excel
+        driver.find_element_by_xpath('//*[@id="j_idt213"]').click()
+        sleep(2)
+        #Abrimos el selecctor
+        driver.find_element_by_xpath('//*[@id="formModalRangos:panelRangoExcel"]/div[2]/div[2]/div/button').click()
+        sleep(2)
+        #Seleccionamos uno
+        driver.find_element_by_xpath('//*[@id="formModalRangos:panelRangoExcel"]/div[2]/div[2]/div/div/ul/li[2]').click()
+        sleep(2)
+        # Descargamos Excel
+        driver.find_element_by_xpath('//*[@id="formModalRangos:btnDescargaExcel"]').click()
+        sleep(2)
+        driver.find_element_by_xpath('//*[@id="modalRangos"]/div/div/div/div[1]/div/button').click()
+        sleep(3)
+        print(len(instituciones))
+        driver.find_element_by_xpath('//*[@data-id="formEntidadFederativa:cboSujetoObligado"]').click()
+        sleep(2)
+        for intituto in instituciones:
+            sleep(2)
+            xpath =  '//*[@id="tooltipInst"]/div/div/ul/li[{}]'.format((len(instituciones)+2))
+            driver.find_element_by_xpath(xpath).click()
+            sleep(2)
+            driver.find_element_by_xpath('//*[@id="listSO"]/ol/li[1]').click()
+            sleep(2)
+            driver.find_element_by_xpath('//tbody/tr/td[@data-original-title="ART. - 95 - XXXIX - LA INFORMACIÓN DE LOS RESULTADOS SOBRE PROCEDIMIENTOS DE ADJUDICACIÓNDIRECTA, INVITACIÓN, INVITACIÓN RESTRINGIDA Y LICITACIÓN DE CUALQUIER NATURALEZA,INCLUYENDO LA VERSIÓN PÚBLICA DEL EXPEDIENTE RESPECTIVO Y DE LOS CONTRATOSCELEBRADOS, QUE DEBERÁ CONTENER POR LO MENOS LO SIGUIENTE"]').click()
+            sleep(2)
+        # instituciones_para_clicck = driver.find_element(By.xpath("('//ol/li')[2]")).click();
+        
+        # for instituto in instituciones_para_click:
+        #     instituto.click()
+        #     sleep(3)
+        #     # driver.find_element_by_xpath('//label[@id="formEntidadFederativa:iconoListado"]').click()
+        #     # sleep(2)
+        #     # print(instituto)
+        #     # driver.close()
+    except ValueError as ve:
+        print(ve)
+def run():
+    parse_home()
+if __name__ == '__main__':
+    run()
