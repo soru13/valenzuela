@@ -1,0 +1,7 @@
+{
+    "dbname": "transparencia",
+    "user": "postgres",
+    "password": "DucEasGMJjkQY2AthnC",
+    "host": "127.0.0.1",
+    "port": 5432
+}

@@ -1,0 +1,4 @@
+# Base
+psycopg2==2.8.5 --no-binary psycopg2
+# Debugging
+ipdb==0.13.3

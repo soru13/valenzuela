@@ -1,0 +1,26 @@
+version: "3"
+
+volumes:
+  local_postgres_data: {}
+  local_postgres_data_backups: {}
+
+services:
+  insert:
+    build:
+      context: .
+      dockerfile: ./compose/insert/Dockerfile
+    image: insert_area_local_django
+    volumes:
+      - .:/app
+    networks:
+      - transparencia_default
+  transparencia:
+    build:
+      context: .
+      dockerfile: ./compose/transparencia/Dockerfile
+    image: transparencia_area_local_django
+    volumes:
+      - .:/app
+networks:
+  transparencia_default:
+    external: true
