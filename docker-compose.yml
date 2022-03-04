@@ -9,7 +9,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/insert/Dockerfile
-    image: insert_area_local_django
+    image: insert_area_local
     volumes:
       - .:/app
     networks:
@@ -18,7 +18,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/transparencia/Dockerfile
-    image: transparencia_area_local_django
+    image: transparencia_area_local
     volumes:
       - .:/app
 networks:

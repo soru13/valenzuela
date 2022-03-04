@@ -5,7 +5,6 @@ from openpyxl import Workbook, load_workbook
 path = "/app/excels"
 
 os.chdir(path)
-# wb = Workbook()
 #Abrimos el archivo para leerlo
 transparencia_excel = load_workbook("{}/{}".format(path,'transparencia.xlsx'))
 sheet_transparencia_excel = transparencia_excel["Sheet"]
@@ -14,10 +13,6 @@ sheet_transparencia_excel_2 = transparencia_excel["Sheet2"]
 # sheets = transparencia_excel.sheetnames
 # grab the active worksheet
 
-# ws = wb.active
-# wb.save("transparencia.xlsx")
-# wb.create_sheet('Sheet2')
-# wb.save('transparencia.xlsx')
 def fila_iniciar(sheet, row_count):
     for row in range(1, row_count):
         cell = sheet.cell(row, 0)
@@ -63,8 +58,8 @@ def insertar(row_count, cur_col,maxima_row,sheet, salto_row, que_columna, sheet2
                         sheet_transparencia_excel.cell(row=(maxima_row+cur_row-salto_row), column=que_columna, value=float(cell.value))
                     else:
                         sheet_transparencia_excel.cell(row=(maxima_row+cur_row-salto_row), column=que_columna, value=cell.value.strip())
-                sheet_transparencia_excel.cell(row=(maxima_row+cur_row-salto_row), column=46, value=file)
-                sheet_transparencia_excel.cell(row=(maxima_row+cur_row-salto_row), column=43, value=name_institute)
+                sheet_transparencia_excel.cell(row=(maxima_row+cur_row-salto_row), column=44, value=file)
+                sheet_transparencia_excel.cell(row=(maxima_row+cur_row-salto_row), column=45, value=name_institute)
 
 def iter_another_table(book,name_table):
     sh = book.sheet_by_name(name_table)
@@ -184,32 +179,40 @@ def iter_columnas(col_count , sheet, maxima_row, row_count, row, book, sheet2, f
         if (' Hipervínculo Al Documento Del Contrato Y Anexos, en Versión Pública, en su Caso' == cell.value or
             'HIPERVÍNCULO AL DOCUMENTO DEL CONTRATO Y ANEXOS  VERSIÓN PÚBLICA SI ASÍ CORRESPONDE' == cell.value):
             insertar(row_count, cur_col, maxima_row, sheet, row, 35, sheet2, False, file, name_institute)
-        if ('ESTATUS CONTRATO' == cell.value):
-            insertar(row_count, cur_col, maxima_row, sheet, row, 36, sheet2, False, file, name_institute)
         if (' Tipo de Fondo de Participación O Aportación Respectiva' == cell.value):
-            insertar(row_count, cur_col, maxima_row, sheet, row, 37, sheet2, False, file, name_institute)
+            insertar(row_count, cur_col, maxima_row, sheet, row, 36, sheet2, False, file, name_institute)
         if (' Breve Descripción de La Obra Pública, en su Caso' == cell.value):
-            insertar(row_count, cur_col, maxima_row, sheet, row, 38, sheet2, False, file, name_institute)
+            insertar(row_count, cur_col, maxima_row, sheet, row, 37, sheet2, False, file, name_institute)
         if (' Etapa de La Obra Pública Y/o Servicio de La Misma (catálogo)' == cell.value):
-            insertar(row_count, cur_col, maxima_row, sheet, row, 39, sheet2, False, file, name_institute)
+            insertar(row_count, cur_col, maxima_row, sheet, row, 38, sheet2, False, file, name_institute)
         if (' Mecanismos de Vigilancia Y Supervisión de La Ejecución, en su Caso' == cell.value or
             'MECANISMOS DE VIGILANCIA Y SUPERVISIÓN CONTRATOS' == cell.value):
-            insertar(row_count, cur_col, maxima_row, sheet, row, 40, sheet2, False, file, name_institute)
+            insertar(row_count, cur_col, maxima_row, sheet, row, 39, sheet2, False, file, name_institute)
         if (' Hipervínculo a Los Informes de Avance Financiero, en su Caso' == cell.value or
             'HIPERVÍNCULO A LOS INFORMES DE AVANCE FINANCIERO' == cell.value):
-            insertar(row_count, cur_col, maxima_row, sheet, row, 41, sheet2, False, file, name_institute)
+            insertar(row_count, cur_col, maxima_row, sheet, row, 40, sheet2, False, file, name_institute)
         if (' Monto Total de Garantías Y/o Contragarantías, en Caso de Que Se Otorgaran durante El Procedimiento' == cell.value or
             'MONTO TOTAL DE GARANTÍAS Y/O CONTRAGARANTÍAS  EN CASO DE QUE SE OTORGARAN DURANTE EL PROCEDIMIENTO' == cell.value):
-            insertar(row_count, cur_col, maxima_row, sheet, row, 42, sheet2, False, file, name_institute)
-        if ('Institucion' == cell.value):
-            insertar(row_count, cur_col, maxima_row, sheet, row, 43, sheet2, False, file, name_institute)
+            insertar(row_count, cur_col, maxima_row, sheet, row, 41, sheet2, False, file, name_institute)
         if ('Municipio/Estado' == cell.value):
-            insertar(row_count, cur_col, maxima_row, sheet, row, 44, sheet2, False, file, name_institute)
+            insertar(row_count, cur_col, maxima_row, sheet, row, 42, sheet2, False, file, name_institute)
         if (" Carácter Del Procedimiento (catálogo)" == cell.value):
-            insertar(row_count, cur_col, maxima_row, sheet, row, 45, sheet2, False, file, name_institute)
-        insertar(row_count, cur_col, maxima_row, sheet, row, 46, sheet2, False, file, name_institute)
-    transparencia_excel.save("transparencia.xlsx")
+            insertar(row_count, cur_col, maxima_row, sheet, row, 43, sheet2, False, file, name_institute)
+def initDocument():
+    wb = Workbook()
+    ws = wb.active
+    wb.save("transparencia.xlsx")
+    wb.create_sheet('Sheet2')
+    wb.save('transparencia.xlsx')
+    lista =['ID','Ejercicio','Tipo de Procedimiento','Materia O Tipo de Contratación','Número de Expediente, Folio O Nomenclatura','Nombre(s)','Primer Apellido','Segundo Apellido','Denominación O Razón Social','Rfc de La Persona Física O Moral Contratista O Proveedor','Área(s) Solicitante','Área(s) Contratante(s)','Número Que Identifique Al Contrato','Monto Del Contrato sin Impuestos (en Pesos Mex.)','Monto Total Del Contrato con Impuestos Incluidos','Tipo de Moneda','Tipo de Cambio de Referencia,en su Caso','Forma de Pago','Origen de Los Recursos Públicos','Fuente de Financiamiento','Lugar Donde Se Realizará La Obra Pública, en su Caso','Descripción de Las Obras, Bienes O Servicios','Fecha de La Convocatoria O Invitación','Fecha Del Contrato','Hipervínculo Al Comunicado de Suspensión, en su Caso','Hipervínculo Al (los) Dictámenes, en su Caso','Hipervínculo a La Convocatoria O Invitaciones','Hipervínculo Al Fallo de La Junta de Aclaraciones O Al Documento Correspondiente','Hipervínculo Al Documento Donde Conste La Presentación Las Propuestas','Descripción de Las Razones Que Justifican su Elección','Área(s) Responsable de su Ejecución','Objeto Del Contrato','Fecha de Inicio Del Plazo de Entrega O Ejecución','Fecha de Término Del Plazo de Entrega O Ejecución','Hipervínculo Al Documento Del Contrato Y Anexos, en Versión Pública, en su Caso','Tipo de Fondo de Participación O Aportación Respectiva','Breve Descripción de La Obra Pública, en su Caso','Etapa de La Obra Pública Y/o Servicio de La Misma (catálogo)','Mecanismos de Vigilancia Y Supervisión de La Ejecución, en su Caso','Hipervínculo a Los Informes de Avance Financiero, en su Caso','Monto Total de Garantías Y/o Contragarantías, en Caso de Que Se Otorgaran durante El Procedimiento','Municipio/Estado','Carácter Del Procedimiento (catálogo)','File','Institucion']
+    for col in range(1, 46):
+        cell = ws.cell(row= 1, column = col)
+        ws.cell(row=1, column=col, value=lista[col-1])
+        if col == 45:
+            wb.save("transparencia.xlsx")
 def parse_home():
+    # initDocument()
+
     for file in os.listdir():
         if file in ['.DS_Store']:
             continue 
@@ -229,10 +232,10 @@ def parse_home():
         col_count = sheet.ncols
         # maxima_columna = sheet_transparencia_excel.max_column
         maxima_row = sheet_transparencia_excel.max_row
-        transparencia_excel.save("transparencia.xlsx")
         name = sheet.cell(0, 1)
         row = fila_iniciar(sheet, row_count)
         iter_columnas(col_count , sheet, maxima_row, row_count, row, book, False, file, name.value)
+        transparencia_excel.save("transparencia.xlsx")
 def run():
     parse_home()
 if __name__ == '__main__':
