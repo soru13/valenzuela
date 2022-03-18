@@ -15,9 +15,9 @@ def consultarId(tabla, propiedad, valor):
     try:
         with conexion.cursor() as cursor:
             if valor != None:
-                consulta_id = "select id from {} where {}= '{}';".format(tabla,propiedad,valor)
+                consulta_id = "select id from {} where {}='{}';".format(tabla,propiedad,valor)
             else:
-                consulta_id = "select id from {} where {}= '{}';".format(tabla,propiedad,'')
+                consulta_id = "select id from {} where {}='{}';".format(tabla,propiedad,'')
             cursor.execute(consulta_id)
             # Con fetchall traemos todas las filas
             retorno = cursor.fetchall()
@@ -95,7 +95,7 @@ def run():
     # insert = "insert into transparencia (code_id,full_name_id,ejercicio_id,tipo_procedimiento_id,tipo_materia_id,folio,area_solicitud_id,area_contratante_id,numero_identifique_contrato,monto_sin_impuesto,monto_con_impuesto,tipo_moneda_id,tipo_cambio_id,forma_pago_id,origen_recurso_id,fuente_financiamiento_id,lugar,descripcion_obra,fecha_convocatoria,fecha_contrato,hiper_comunicado,hiper_dictamenes,hiper_convocatoria,hiper_fallo_junta,hiper_present_propues,descripcion_justifican,area_responsable_id,objeto_contrato,fecha_entrega_ejecucion,fecha_termino_ejecucion,hiper_contrato_publico,tipo_fondo_id,breve_descripcion_obra_publica,etapa_obra_id,mecanismo_vigilancia_id,hiper_informes_avance_financiero,monto_total_garantia,institute_id,estado_municipio,caracterde_procedimiento_id,name_file,usuario_registro_id, created, modified ) VALUES"
     codigo=full_name_id=ejercicio_id=tipo_procedimiento_id=materia_tipo_id=folio=area_solicitante_id=area_contratante_id=numero_identifique_contrato=monto_sin=monto_con=tipo_moneda_id=tipo_cambio_id=forma_pago_id=origen_recurso_id=fuente_financiamiento_id=lugar_obra=fecha_convocatoria=fecha_contrato=hiperviculo_comunicado=hiperviculo_dictamen=hiperviculo_convocatoria=hiperviculo_fallo=hiperviculo_presentacion=area_responsable_id=fecha_inicio_plazo=fecha_termino_plazo=hiperviculo_contrato=tipo_fondo_id=etapa_obra_id=mecanismo_vigilancia_id=hiperviculo_avance=monto_garantia=estado=caracter_procedimiento_id=file_name=institute_id = ''
     descripcion_justificaci = descripcion_obra = objeto_contrato = breve_descripcion_obra = ""
-    for row in range(44634, (sheet_transparencia_excel.max_row + 1)):
+    for row in range(1905, (sheet_transparencia_excel.max_row + 1)):
         validar_codigo = sheet_transparencia_excel.cell(row= row, column = 1)
         duplicado = consultarId('transparencia', 'code_id',validar_codigo.value)
         if duplicado:
@@ -358,7 +358,7 @@ def run():
                     print(cell.value)
                     lista.append(cell.value)
             if col ==45:
-                institute_id = consultarId('institute', 'name',cell.value)
+                institute_id = consultarId('institute', 'name',cell.value.strip())
                 if institute_id == None:
                     institute_id = consultarId('institute', 'name','')
                 # institutos.append(institute_id)
