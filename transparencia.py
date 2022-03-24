@@ -48,7 +48,8 @@ def insertar(row_count, cur_col,maxima_row,sheet, salto_row, que_columna, sheet2
                         else:
                             sheet_transparencia_excel_2.cell(row=(maxima_row+cur_row-salto_row), column=que_columna, value=cell.value.strip())
                 else:
-                    sheet_transparencia_excel_2.cell(row=(maxima_row+cur_row-salto_row), column=que_columna, value=cell.value.strip())                        
+                    sheet_transparencia_excel_2.cell(row=(maxima_row+cur_row-salto_row), column=que_columna, value=cell.value.strip())
+                sheet_transparencia_excel_2.cell(row=(maxima_row+cur_row-salto_row), column=45, value=name_institute)                 
             else:
                 transparencia_excel.active = 0
                 if (isinstance(cell.value,float) or isinstance(cell.value,int)):
@@ -61,7 +62,7 @@ def insertar(row_count, cur_col,maxima_row,sheet, salto_row, que_columna, sheet2
                 sheet_transparencia_excel.cell(row=(maxima_row+cur_row-salto_row), column=44, value=file)
                 sheet_transparencia_excel.cell(row=(maxima_row+cur_row-salto_row), column=45, value=name_institute)
 
-def iter_another_table(book,name_table):
+def iter_another_table(book,name_table, name_institute):
     sh = book.sheet_by_name(name_table)
     row_count = sh.nrows
     print('hoja secundaria')
@@ -69,14 +70,14 @@ def iter_another_table(book,name_table):
     col_count = sh.ncols
     maxima_row = sheet_transparencia_excel_2.max_row
     row = fila_iniciar(sh, row_count)
-    iter_columnas(col_count , sh, maxima_row, row_count, row, book, True, '', '')
-def relation(cell, book, texto_tabla, is_tabla):
+    iter_columnas(col_count , sh, maxima_row, row_count, row, book, True, '', name_institute)
+def relation(cell, book, texto_tabla, is_tabla, name_institute):
     transparencia_excel.active = 1
     if (is_tabla):
-        iter_another_table(book, texto_tabla)
+        iter_another_table(book, texto_tabla, name_institute)
     else:
         tabla = cell.value.split(texto_tabla, 1)[1].replace(")","").strip().upper().replace("_","")
-        iter_another_table(book, tabla)
+        iter_another_table(book, tabla, name_institute)
 
 def iter_columnas(col_count , sheet, maxima_row, row_count, row, book, sheet2, file, name_institute):
     for cur_col in range(0, col_count):
@@ -100,18 +101,22 @@ def iter_columnas(col_count , sheet, maxima_row, row_count, row, book, sheet2, f
             insertar(row_count, cur_col, maxima_row, sheet, row, 8, sheet2, False, file, name_institute)
         if (' Nombre O Razón Social Del Adjudicado (Tabla' in cell.value):
             insertar(row_count, cur_col, maxima_row, sheet, row, 9, sheet2, True, file, name_institute)
-            relation(cell, book, 'Adjudicado (', False)
+            relation(cell, book, 'Adjudicado (', False,name_institute)
         if (' Nombre Completo Del O Los Contratista(s) Elegidos (Tabla' in cell.value):
-            insertar(row_count, cur_col, maxima_row, sheet, row, 6, sheet2, True, file, name_institute)
-            relation(cell, book, 'Elegidos (', False)
+            insertar(row_count, cur_col, maxima_row, sheet, row, 9, sheet2, True, file, name_institute)
+            relation(cell, book, 'Elegidos (', False,name_institute)
+        if (' Nombre Completo O Razón Social de Las Cotizaciones Consideradas Y Monto de Las Mismas (Tabla' in cell.value):
+            insertar(row_count, cur_col, maxima_row, sheet, row, 9, sheet2, True, file, name_institute)
+            relation(cell, book, 'de Las Mismas (', False,name_institute)
         if (' Origen de Los Recursos Públicos (Tabla' in cell.value):
             insertar(row_count, cur_col, maxima_row, sheet, row, 19, sheet2, True, file, name_institute)
-            relation(cell, book, 'Públicos (', False)
+            relation(cell, book, 'Públicos (', False,name_institute)
         if (' Denominación O Razón Social' == cell.value or
             ' Denominación O Razón Social Del Contratista' == cell.value or
             ' Razón Social' == cell.value or
             ' Razón Social Del Contratista O Proveedor' == cell.value or
             ' Nombre O Razón Social Del Adjudicado' == cell.value or
+            ' Razón Social Del Adjudicado' == cell.value or
             'RAZÓN SOCIAL DEL ADJUDICADO' == cell.value):
             if(sheet2):
                 insertar(row_count, cur_col, maxima_row, sheet, row, 9, sheet2, False, file, name_institute)
@@ -119,10 +124,10 @@ def iter_columnas(col_count , sheet, maxima_row, row_count, row, book, sheet2, f
                 is_relationship = isRelationship(sheet, row, cur_col)
                 if (is_relationship):
                     insertar(row_count, cur_col, maxima_row, sheet, row, 9, sheet2, True, file, name_institute)
-                    relation(cell, book, 'TABLA217180', True)
+                    relation(cell, book, 'TABLA217180', True, name_institute)
                 else:
                     insertar(row_count, cur_col, maxima_row, sheet, row, 9, sheet2, False, file, name_institute)
-        if (' Rfc de La Persona Física O Moral Contratista O Proveedor' == cell.value or ' Registro Federal de Contribuyentes (rfc) de La Persona Física O Moral Adjudicada' == cell.value or 'REGISTRO FEDERAL DE CONTRIBUYENTES (RFC) DE LA PERSONA FÍSICA O MORAL ADJUDICADA' == cell.value):
+        if (' Rfc de La Persona Física O Moral Contratista O Proveedor' == cell.value or ' Registro Federal de Contribuyentes (rfc) de La Persona Física O Moral Adjudicada' == cell.value or 'REGISTRO FEDERAL DE CONTRIBUYENTES (RFC) DE LA PERSONA FÍSICA O MORAL ADJUDICADA' == cell.value or ' Rfc de Los Posibles Contratantes' == cell.value):
             insertar(row_count, cur_col, maxima_row, sheet, row, 10, sheet2, False, file, name_institute)
         if (' Área(s) Solicitante' == cell.value or 'ÁREA(S) SOLICITANTE(S)' == cell.value):
             insertar(row_count, cur_col, maxima_row, sheet, row, 11, sheet2, False, file, name_institute)
