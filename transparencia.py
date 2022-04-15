@@ -136,9 +136,11 @@ def iter_columnas(col_count , sheet, maxima_row, row_count, row, book, sheet2, f
         if (' Número Que Identifique Al Contrato' == cell.value or 'NÚMERO QUE IDENTIFIQUE AL CONTRATO' == cell.value):
             insertar(row_count, cur_col, maxima_row, sheet, row, 13, sheet2, True, file, name_institute)
         if (' Monto Del Contrato sin Impuestos (en Pesos Mex.)' == cell.value or ' Monto Del Contrato sin Impuestos (en Mxn)' == cell.value or
+            ' Monto Del Contrato sin Impuestos Incluidos' == cell.value or
             'MONTO DEL CONTRATO SIN IMPUESTOS INCLUIDOS' == cell.value):
             insertar(row_count, cur_col, maxima_row, sheet, row, 14, sheet2, True, file, name_institute)
         if (' Monto Total Del Contrato con Impuestos Incluidos' == cell.value or ' Monto Total Del Contrato con Impuestos Incluidos (mxn)' == cell.value or
+            ' Monto Total Del Contrato con Impuestos Incluidos (expresado en Pesos Mexicanos)' == cell.value or
             'MONTO TOTAL DEL CONTRATO CON IMPUESTOS INCLUIDOS (EXPRESADO EN PESOS MEXICANOS)' == cell.value):
             insertar(row_count, cur_col, maxima_row, sheet, row, 15, sheet2, True, file, name_institute)
         if (' Tipo de Moneda' == cell.value or 'TIPO DE MONEDA' == cell.value):
