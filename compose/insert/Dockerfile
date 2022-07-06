@@ -22,4 +22,4 @@ RUN pip install psycopg2 && pip install ipdb && pip install openpyxl
 WORKDIR /app
 COPY ./ .
 
-CMD [ "python", "./insert_to_bd.py"]
+CMD [ "python", "./insert_to_db.py"]

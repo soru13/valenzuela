@@ -14,6 +14,15 @@ services:
       - .:/app
     networks:
       - transparencia_default
+  insert_programas:
+    build:
+      context: .
+      dockerfile: ./compose/insert/programas_sociales/Dockerfile
+    image: insert_area_local_programas
+    volumes:
+      - .:/app
+    networks:
+      - transparencia_default
   transparencia:
     build:
       context: .

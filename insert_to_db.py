@@ -59,7 +59,6 @@ def run():
         duplicado = consultarId('transparencia', 'code_id',validar_codigo.value)
         if duplicado:
             duplicados.append(validar_codigo.value)
-            print(duplicados)
             continue
         for col in range(1, 46):
             cell = sheet_transparencia_excel.cell(row= row, column = col)
